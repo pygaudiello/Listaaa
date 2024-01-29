@@ -23,7 +23,7 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-  List<Task> tasks = []; // Lista de Compromissos
+  List<Task> tasks = []; // Lista 
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class _TaskListState extends State<TaskList> {
       appBar: AppBar(
         title: const Text(
           'Lista de Tarefas',
-          style: TextStyle(fontWeight: FontWeight.w500), // Negrito
+          style: TextStyle(fontWeight: FontWeight.w500),
         ),
         centerTitle: true, // Título centralizado
         backgroundColor: const Color.fromARGB(255, 170, 235, 255),
@@ -56,7 +56,7 @@ class _TaskListState extends State<TaskList> {
         },
         child: const Icon(Icons.event),
         backgroundColor:
-            const Color.fromARGB(255, 170, 235, 255), // Botão vermelho
+            const Color.fromARGB(255, 170, 235, 255), 
       ),
     );
   }
