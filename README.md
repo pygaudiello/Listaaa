@@ -4,6 +4,7 @@ Quando tenho uma quantidade considerável de tarefas para realizar, costumava se
 Então, decidi começar a anotar tudo, mas o que acontecia quando perdia esses papéis? 
 Decidi me desafiar enquanto aprendia Flutter e resolver esse problema de uma vez por todas! 
 Criei uma lista de tarefas no meu celular para me lembrar das pequenas coisas que preciso fazer. 
+
 Adeus, papeizinhos perdidos! 👋📱"
 
 ## Imagens do Resultado Final
