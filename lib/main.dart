@@ -1,45 +1,52 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: TaskList(),
     );
   }
 }
 
 class TaskList extends StatefulWidget {
+  const TaskList({Key? key}) : super(key: key);
+
   @override
   _TaskListState createState() => _TaskListState();
 }
 
 class _TaskListState extends State<TaskList> {
-  List<String> tasks = []; // Lista de Compromissos
+  List<Task> tasks = []; // Lista de Compromissos
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista de Compromissos'),
+        title: const Text(
+          'Lista de Tarefas',
+          style: TextStyle(fontWeight: FontWeight.w500), // Negrito
+        ),
         centerTitle: true, // Título centralizado
-        backgroundColor: Colors.red, //AppBar vermelha
+        backgroundColor: const Color.fromARGB(255, 170, 235, 255),
       ),
       body: ListView.builder(
         itemCount: tasks.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(tasks[index]),
-            trailing: IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                _deleteTask(index);
-              },
-            ),
+          return TaskItem(
+            task: tasks[index],
+            onDelete: () {
+              _deleteTask(index);
+            },
+            onToggle: () {
+              _toggleTask(index);
+            },
           );
         },
       ),
@@ -47,8 +54,9 @@ class _TaskListState extends State<TaskList> {
         onPressed: () {
           _addTask(context);
         },
-        child: Icon(Icons.event),
-        backgroundColor: Colors.red, // Botão vermelho
+        child: const Icon(Icons.event),
+        backgroundColor:
+            const Color.fromARGB(255, 170, 235, 255), // Botão vermelho
       ),
     );
   }
@@ -60,7 +68,7 @@ class _TaskListState extends State<TaskList> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Adicionar Compromisso'),
+          title: const Text('Adicionar Tarefa'),
           content: TextField(
             controller: taskController,
           ),
@@ -68,14 +76,14 @@ class _TaskListState extends State<TaskList> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  tasks.add(taskController.text);
+                  tasks.add(Task(title: taskController.text, completed: false));
                 });
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.red, //Adicionar em vermelho
+                primary: const Color.fromARGB(255, 170, 235, 255),
               ),
-              child: Text('Adicionar'),
+              child: const Text('Adicionar'),
             ),
           ],
         );
@@ -88,4 +96,58 @@ class _TaskListState extends State<TaskList> {
       tasks.removeAt(index);
     });
   }
+
+  void _toggleTask(int index) {
+    setState(() {
+      tasks[index].toggleCompleted();
+    });
+  }
 }
+
+class Task {
+  String title;
+  bool completed;
+
+  Task({required this.title, required this.completed});
+
+  void toggleCompleted() {
+    completed = !completed;
+  }
+}
+
+class TaskItem extends StatelessWidget {
+  final Task task;
+  final VoidCallback onDelete;
+  final VoidCallback onToggle;
+
+  const TaskItem({
+    required this.task,
+    required this.onDelete,
+    required this.onToggle,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Checkbox(
+        value: task.completed,
+        onChanged: (value) {
+          onToggle();
+        },
+      ),
+      title: Text(
+        task.title,
+        style: TextStyle(
+          fontSize: 15,
+          decoration: task.completed ? TextDecoration.lineThrough : null,
+        ),
+      ),
+      trailing: IconButton(
+        icon: const Icon(Icons.delete),
+        onPressed: onDelete,
+      ),
+    );
+  }
+}
+
